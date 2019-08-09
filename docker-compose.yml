@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  userservice:
+    build: ./userservice
+    volumes:
+      - ./userservice:/usr/src/app
+    ports:
+      - 3000:3000
+
+  website:
+    image: php:apache
+    volumes:
+      - ./website:/var/www/html
+    ports:
+      - 80:80
+    environment:
+      - USERSERVICE_URL=http://userservice:3000
+    depends_on:
+      - userservice
